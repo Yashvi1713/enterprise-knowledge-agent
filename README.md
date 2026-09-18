@@ -1,70 +1,82 @@
-# Enterprise Knowledge Agent --- Databricks Customer Service Assistant
+# 🚀 Enterprise Knowledge Agent — Databricks Customer Service Assistant
 
-An end-to-end **Enterprise Knowledge + Agentic AI** solution built on
-**Databricks** that combines structured enterprise data and unstructured
-product documentation to support grounded customer-service interactions.
+<!-- Centered Badges Block -->
+<p align="center">
+  <img src="https://shields.io" alt="GitHub stars">
+  <img src="https://shields.io" alt="GitHub forks">
+  <img src="https://shields.io" alt="GitHub license">
+</p>
 
-The project ingests CSVs and PDF manuals, builds governed knowledge in
-**Unity Catalog**, enables semantic retrieval through **Databricks
-Vector Search**, exposes structured data through **Unity Catalog SQL
-functions**, and connects the AI serving layer to a full-stack
-customer-service portal.
+---
 
-------------------------------------------------------------------------
+## 📖 Overview
 
-## Project Explanation
+An end-to-end **Enterprise Knowledge + Agentic AI** solution built on **Databricks** that combines structured enterprise data and unstructured product documentation to support grounded customer-service interactions. 
 
-Customer-service teams often need information from different systems:
-product manuals, product metadata, company policies, and historical
-customer-service records. This project brings those sources into a
-single Databricks-based knowledge architecture.
+The project ingests CSVs and PDF manuals, builds governed knowledge in **Unity Catalog**, enables semantic retrieval through **Databricks Vector Search**, exposes structured data through **Unity Catalog SQL functions**, and connects the AI serving layer to a full-stack customer-service portal.
 
-  -----------------------------------------------------------------------
-  Knowledge Type          Data                    Implementation
-  ----------------------- ----------------------- -----------------------
-  **Unstructured KB**     Product manuals and     PDF parsing →
-                          documentation           enrichment → Delta
-                                                  table → Vector Search
+### 💡 Project Explanation
+Customer-service teams often need information from different systems: product manuals, product metadata, company policies, and historical customer-service records. This project brings those sources into a single Databricks-based knowledge architecture.
 
-  **Structured KB**       Products, policies,     CSV ingestion → Delta
-                          customer-service data   tables → Unity Catalog
-                                                  SQL functions
-  -----------------------------------------------------------------------
+| Knowledge Type | Data | Implementation |
+| :--- | :--- | :--- |
+| **Unstructured KB** | Product manuals and documentation | PDF parsing → enrichment → Delta table → Vector Search |
+| **Structured KB** | Products, policies, customer-service data | CSV ingestion → Delta tables → Unity Catalog SQL functions |
 
-The two knowledge paths are designed to work together so semantic
-retrieval can answer documentation-heavy questions while governed SQL
-functions provide deterministic business lookups.
+The two knowledge paths are designed to work together so semantic retrieval can answer documentation-heavy questions while governed SQL functions provide deterministic business lookups.
 
-------------------------------------------------------------------------
+---
 
-## Architecture
+## 📐 Architecture & Workflow
 
-``` text
-PDFs  → parse → enrich → Delta table → Vector Search Index    (Unstructured KB)
-CSVs  → Delta tables → Unity Catalog SQL functions            (Structured KB)
-Both  → AI Agent / LLM → Model Serving → Customer Service Portal
+The architecture handles unstructured data via Vector Search and structured business logic through Unity Catalog User Defined Functions (UDFs). Both pipelines merge into the Model Serving layer to feed the client dashboard.
+
+```mermaid
+graph TD
+    %% Unstructured Pipeline
+    A1[PDF Manuals] --> B1[PDF Parsing & Enrichment]
+    B1 --> C1[(Delta Table)]
+    C1 --> D1[Databricks Vector Search Index]
+    
+    %% Structured Pipeline
+    A2[CSV Business Data] --> C2[(Delta Tables)]
+    C2 --> D2[Unity Catalog SQL Functions]
+    
+    %% AI & Serving Layer
+    D1 --> E[AI Agent / LLM Endpoint]
+    D2 --> E
+    E --> F[Databricks Model Serving]
+    F --> G[Customer Service Portal]
+
+    style A1 fill:#f9f,stroke:#333,stroke-width:1px
+    style A2 fill:#f9f,stroke:#333,stroke-width:1px
+    style G fill:#bbf,stroke:#333,stroke-width:2px
 ```
 
-  Component                  Technology
-  -------------------------- -------------------------------------------
-  **Data Ingestion**         PySpark, Python, `pypdf`
-  **Storage & Governance**   Delta Lake, Unity Catalog
-  **Structured KB**          Delta tables, Unity Catalog SQL functions
-  **Unstructured KB**        Databricks Vector Search
-  **Retrieval**              Hybrid Search
-  **AI Layer**               Databricks AI / Agent endpoint
-  **Serving**                Databricks Model Serving
-  **Frontend**               React, TypeScript
-  **Backend**                Express.js, TypeScript
-  **Persistence**            Lakebase / PostgreSQL *(optional)*
-  **Evaluation**             MLflow feedback *(optional)*
-  **Deployment**             Databricks Apps, Databricks Asset Bundles
+---
 
-------------------------------------------------------------------------
+## 🛠️ Technology Stack & Tools
 
-## Project Structure
+| Component | Technology / Tools Used |
+| :--- | :--- |
+| **Data Ingestion** | PySpark, Python, `pypdf` |
+| **Storage & Governance** | Delta Lake, Unity Catalog |
+| **Structured KB** | Delta tables, Unity Catalog SQL functions |
+| **Unstructured KB** | Databricks Vector Search |
+| **Retrieval** | Hybrid Search |
+| **AI Layer** | Databricks AI / Agent endpoint |
+| **Serving** | Databricks Model Serving |
+| **Frontend** | React, TypeScript |
+| **Backend** | Express.js, TypeScript |
+| **Persistence** | Lakebase / PostgreSQL *(optional)* |
+| **Evaluation** | MLflow feedback *(optional)* |
+| **Deployment** | Databricks Apps, Databricks Asset Bundles (DAB) |
 
-``` text
+---
+
+## 📁 Project Structure
+
+```text
 enterprise-knowledge-agent/
 │
 ├── Notebooks/
@@ -94,211 +106,128 @@ enterprise-knowledge-agent/
 └── README.md
 ```
 
-------------------------------------------------------------------------
+---
 
-## Quick Start
+## 🚀 Quick Start
 
-### Prerequisites
+### 📋 Prerequisites
+Ensure you have the following environments and configurations configured:
+- [ ] **Databricks workspace** with Unity Catalog enabled
+- [ ] **Databricks CLI** installed and authenticated locally
+- [ ] Running Databricks compute for notebook execution
+- [ ] Pre-existing **Vector Search endpoint and index**
+- [ ] Databricks AI / model serving endpoint for the portal
+- [ ] **Node.js 18+** and **npm 8+**
 
--   **Databricks workspace** with Unity Catalog
--   **Databricks CLI** installed and authenticated
--   Databricks compute for notebook execution
--   Existing **Vector Search endpoint and index**
--   Databricks AI / model serving endpoint for the portal
--   **Node.js 18+** and **npm 8+**
+### 💻 Deploy & Run
 
-### Deploy & Run
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/Yashvi1713/enterprise-knowledge-agent.git
+   cd enterprise-knowledge-agent
+   ```
 
-``` bash
-# 1. Clone the repository
-git clone https://github.com/Yashvi1713/enterprise-knowledge-agent.git
-cd enterprise-knowledge-agent
+2. **Upload Source Assets:**
+   Upload your raw CSVs and PDFs to your configured Unity Catalog Volume:
+   ```text
+   /Volumes/<catalog>/<schema>/<volume>/
+   ```
 
-# 2. Upload source CSVs and PDFs to the configured Unity Catalog Volume
-# /Volumes/<catalog>/<schema>/<volume>/
+3. **Execute Core Pipeline Notebooks:**
+   Run the Databricks notebooks inside your workspace in sequential order:
+   - `01_Parse_PDF_Docs.py`
+   - `02_Load_CSV_files.py`
+   - `03_Enriched_Docs.py`
+   - `04_Query_VS_Index.py`
+   - `05_Create_UDF.py`
 
-# 3. Run the Databricks notebooks in sequence
-# 01_Parse_PDF_Docs.py
-# 02_Load_CSV_files.py
-# 03_Enriched_Docs.py
-# 04_Query_VS_Index.py
-# 05_Create_UDF.py
+4. **Boot Up Customer Service Portal:**
+   ```bash
+   cd apps/customer-service-portal
+   npm install
+   cp .env.example .env
+   npm run dev
+   ```
 
-# 4. Start the customer-service portal locally
-cd apps/customer-service-portal
-npm install
-cp .env.example .env
-npm run dev
-```
+### 📦 Deploying via Databricks Asset Bundles (DAB)
 
-### Deploy the Databricks App
-
-``` bash
-# Authenticate
+```bash
+# Authenticate your terminal session
 databricks auth login
 
-# Validate bundle configuration
+# Validate your bundle configurations
 databricks bundle validate
 
-# Deploy resources
-databricks bundle deploy \
-  --var serving_endpoint_name="<your-serving-endpoint>"
+# Deploy your workspace cloud resources
+databricks bundle deploy --var serving_endpoint_name="<your-serving-endpoint>"
 
-# Run the app resource
+# Launch the app engine resource
 databricks bundle run databricks_chatbot
 ```
 
-> The current repository queries an existing Vector Search
-> endpoint/index. Vector Search provisioning and AI serving-endpoint
-> provisioning are currently managed outside the notebook pipeline.
+> ⚠️ **Note:** Vector Search provisioning and AI serving-endpoint configurations are currently managed outside the notebook pipeline.
 
-------------------------------------------------------------------------
+---
 
-## Agent Tools
+## 🤖 Agent Routing Tools
 
-The knowledge layer provides semantic retrieval for product
-documentation and deterministic tools for structured business
-information.
+The knowledge layer provides semantic routing filters for structural data queries rather than evaluating every input string exclusively as an unstructured vector problem.
 
-  -----------------------------------------------------------------------
-  Tool                    Type                    Description
-  ----------------------- ----------------------- -----------------------
-  **Product Documentation Vector Search Retriever Searches enriched
-  Search**                                        product documentation
-                                                  for product
-                                                  information, setup
-                                                  guidance, and
-                                                  troubleshooting context
+| Tool | Type | Description |
+| :--- | :--- | :--- |
+| **Product Documentation Search** | Vector Search Retriever | Searches enriched product documentation for setup guidance, specs, and troubleshooting context. |
+| `get_return_policy` | UC SQL Function | Retrieves precise policy details for a requested corporate policy query. |
+| `get_service_history` | UC SQL Function | Extracts custom historical context for targeted customer-specific service requests. |
 
-  `get_return_policy`     UC SQL Function         Retrieves policy
-                                                  details for a requested
-                                                  company policy
+---
 
-  `get_service_history`   UC SQL Function         Retrieves
-                                                  customer-specific
-                                                  service/return
-                                                  information
-  -----------------------------------------------------------------------
+## ⚙️ Configuration Adjustments
 
-This allows the AI layer to choose the appropriate knowledge source
-instead of treating every enterprise question as a vector-search
-problem.
+### 📝 Parameterized Notebook Variables
+Settings are dynamically controlled inside your environment using Databricks widgets:
 
-------------------------------------------------------------------------
+| Variable | Default | Description |
+| :--- | :--- | :--- |
+| `catalog` | `agentic_catalog` | Targets the designated Unity Catalog catalog space |
+| `schema` | `agentic_schema` | Targets the active environment schema |
+| `volume` | `customer_service` | Managed volume context housing internal source files |
 
-## Configuration
+### 🔍 Vector Search Config Parameters
 
-Notebook settings are parameterized through Databricks widgets.
+| Setting | Current Value |
+| :--- | :--- |
+| **Endpoint** | `products_vector_search_endpoint` |
+| **Index** | `agentic_catalog.agentic_schema.product_docs_index` |
+| **Search Type** | `HYBRID` |
 
-  -----------------------------------------------------------------------
-  Variable                Default                 Description
-  ----------------------- ----------------------- -----------------------
-  `catalog`               `agentic_catalog`       Unity Catalog catalog
+> 🔒 **Security Notice:** Vector Search secrets (`WORKSPACE_URL`, `SP_CLIENT_ID`, `SP_CLIENT_SECRET`) should be read cleanly from your local environment setup. Never commit raw credentials into version control.
 
-  `schema`                `agentic_schema`        Project schema
+### 🌐 Portal Application Ecosystem
 
-  `volume`                `customer_service`      Managed volume
-                                                  containing source data
-  -----------------------------------------------------------------------
+| Target Element | System Strategy |
+| :--- | :--- |
+| **Runtime Engine** | Node.js 20 |
+| **Serving Endpoint** | Dynamic string injected through `serving_endpoint_name` |
+| **DAB Deploy Targets** | `dev` \| `staging` \| `prod` |
+| **Chat Persistence** | Optional instance layer using Lakebase / PostgreSQL |
+| **Feedback Metric Evaluation** | Optional tracking setups leveraging MLflow assessments |
 
-Source data is expected under:
+---
 
-``` text
-/Volumes/<catalog>/<schema>/<volume>/
-```
+## 🔄 Idempotency & Repeatability
 
-### Vector Search Configuration
+The implementation layers utilize strictly repeatable write patterns, ensuring core pipelines can safely execute without duplicating resources or requiring manual database deletion steps.
 
-  Setting           Current Value
-  ----------------- -----------------------------------------------------
-  **Endpoint**      `products_vector_search_endpoint`
-  **Index**         `agentic_catalog.agentic_schema.product_docs_index`
-  **Search Type**   `HYBRID`
+| Component Component | Idempotent Logic Patterns |
+| :--- | :--- |
+| **PDF Documentation** | Written using `.mode("overwrite")` + `overwriteSchema` rules |
+| **CSV Data Pipelines** | Recreated automatically using `.mode("overwrite")` setups |
+| **Enriched Documents** | Rebuilt continuously across execution triggers via overwrite patterns |
+| **UC SQL Functions** | Rebuilt cleanly using declarative `CREATE OR REPLACE FUNCTION` scripts |
+| **Change Data Tracking** | Native Delta Change Data Feed mechanics tracking target mutations |
+| **App Bundle Deployments** | Infrastructure maps dynamically addressed across isolated DAB targets |
 
-Vector Search authentication is read from environment variables:
+---
 
-``` text
-WORKSPACE_URL
-SP_CLIENT_ID
-SP_CLIENT_SECRET
-```
-
-### Application Configuration
-
-  Setting                  Configuration
-  ------------------------ ----------------------------------------
-  **Runtime**              Node.js 20
-  **Serving Endpoint**     Passed through `serving_endpoint_name`
-  **Development Target**   `dev`
-  **Staging Target**       `staging`
-  **Production Target**    `prod`
-  **Chat Persistence**     Optional Lakebase / PostgreSQL
-  **Feedback**             Optional MLflow assessments
-
-> Never commit service-principal credentials, tokens, or other secrets
-> to source control.
-
-------------------------------------------------------------------------
-
-## Idempotency
-
-The implemented data-processing layers use repeatable write patterns so
-core pipeline steps can be rerun predictably.
-
-  -----------------------------------------------------------------------
-  Component                           Idempotent Behavior
-  ----------------------------------- -----------------------------------
-  **PDF Documentation**               Written using `mode("overwrite")` +
-                                      `overwriteSchema`
-
-  **CSV Tables**                      Recreated using `mode("overwrite")`
-
-  **Enriched Documents**              Rebuilt using `overwrite` +
-                                      `overwriteSchema`
-
-  **UC SQL Functions**                Created using
-                                      `CREATE OR REPLACE FUNCTION`
-
-  **Change Tracking**                 Delta Change Data Feed enabled on
-                                      enriched documentation
-
-  **Vector Search Query**             Reuses the configured
-                                      endpoint/index
-
-  **App Deployment**                  Environment-specific resources
-                                      managed through DAB targets
-  -----------------------------------------------------------------------
-
-The ingestion, transformation, and SQL-function layers can therefore be
-rerun without manually deleting their existing output objects.
-
-> Vector Search provisioning/synchronization and the final AI serving
-> endpoint are currently external resources, so the repository does not
-> yet claim full end-to-end infrastructure idempotency.
-
-------------------------------------------------------------------------
-
-## Tech Stack
-
-`Databricks` · `PySpark` · `Python` · `SQL` · `Delta Lake` ·
-`Unity Catalog` · `Vector Search` · `Hybrid Search` · `RAG` ·
-`Agentic AI` · `Model Serving` · `Databricks Apps` ·
-`Databricks Asset Bundles` · `React` · `TypeScript` · `Express.js` ·
-`Lakebase` · `MLflow` · `Playwright`
-
-------------------------------------------------------------------------
-
-## Author
-
-**Yashvi Shukla**\
-Data Professional \| Analytics • Engineering • Cloud
-
-GitHub: [Yashvi1713](https://github.com/Yashvi1713)
-
-------------------------------------------------------------------------
-
-## Acknowledgements
-
-The customer-service portal is based on the **Databricks Agent Chat
-application template** and is integrated into this project as the
-application layer for the enterprise knowledge solution.
+## 🤝 Acknowledgements & Contributions
+* **Base Blueprint Layout:** The customer-service portal application is adapted from the core **Databricks Agent Chat application template** and is extended to handle multi-tiered enterprise data lookups.
