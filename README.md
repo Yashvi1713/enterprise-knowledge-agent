@@ -1,14 +1,5 @@
 # 🚀 Enterprise Knowledge Agent — Databricks Customer Service Assistant
 
-<!-- Centered Badges Block -->
-<p align="center">
-  <img src="https://shields.io" alt="GitHub stars">
-  <img src="https://shields.io" alt="GitHub forks">
-  <img src="https://shields.io" alt="GitHub license">
-</p>
-
----
-
 ## 📖 Overview
 
 An end-to-end **Enterprise Knowledge + Agentic AI** solution built on **Databricks** that combines structured enterprise data and unstructured product documentation to support grounded customer-service interactions. 
