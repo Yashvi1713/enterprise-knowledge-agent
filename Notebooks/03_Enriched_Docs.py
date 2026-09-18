@@ -1,4 +1,8 @@
 # Databricks notebook source
+# /// script
+# [tool.databricks.environment]
+# environment_version = "5"
+# ///
 # MAGIC %md
 # MAGIC ### Product Documentation Indexing Pipeline
 # MAGIC
@@ -87,3 +91,9 @@ print(f"Total number of record {spark.table(target_tbl).count()}")
 
 # MAGIC %sql
 # MAGIC select * from agentic_catalog.agentic_schema.product_docs_enriched limit 20;
+
+# COMMAND ----------
+
+spark.sql(f"""
+          ALTER TABLE {catalog}.{schema}.product_docs_enriched 
+          SET TBLPROPERTIES (delta.enableChangeDataFeed = true)""")
